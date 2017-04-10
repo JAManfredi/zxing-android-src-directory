@@ -228,8 +228,8 @@ public final class CameraManager {
 
       // Frame With Target Image On Scanner Layout
       Drawable d = context.getResources().getDrawable(R.drawable.target);
-      int width = d.getIntrinsicWidth() + 100;
-      int height = d.getIntrinsicHeight() + 100;
+      int width = d.getIntrinsicWidth() + 200;
+      int height = d.getIntrinsicHeight() + 200;
 
       int leftOffset = (screenResolution.x - width) / 2;
       int topOffset = ((screenResolution.y - height) / 2) - 132;
