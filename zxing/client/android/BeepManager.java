@@ -26,11 +26,13 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.showclix.axess.app.R;
+
 import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * Manages beeps and vibrations for {@link CaptureActivity}.
+ * Manages beeps and vibrations for {@link com.showclix.axess.app.activities.CaptureActivity}.
  */
 final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
 
@@ -87,7 +89,7 @@ final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
   private MediaPlayer buildMediaPlayer(Context activity) {
     MediaPlayer mediaPlayer = new MediaPlayer();
     try {
-      AssetFileDescriptor file = activity.getResources().openRawResourceFd(R.raw.beep);
+      AssetFileDescriptor file = activity.getResources().openRawResourceFd(R.raw.valid_sound);
       try {
         mediaPlayer.setDataSource(file.getFileDescriptor(), file.getStartOffset(), file.getLength());
       } finally {

@@ -19,6 +19,7 @@ package com.google.zxing.client.android;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
+import com.showclix.axess.app.activities.CaptureActivity;
 
 import android.content.SharedPreferences;
 import android.os.Handler;

@@ -16,9 +16,6 @@
 
 package com.google.zxing.client.android;
 
-import com.google.zxing.ResultPoint;
-import com.google.zxing.client.android.camera.CameraManager;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -28,6 +25,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.google.zxing.ResultPoint;
+import com.google.zxing.client.android.camera.CameraManager;
+import com.showclix.axess.app.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,7 @@ public final class ViewfinderView extends View {
     if (frame == null || previewFrame == null) {
       return;
     }
+
     int width = canvas.getWidth();
     int height = canvas.getHeight();
 
@@ -102,57 +104,6 @@ public final class ViewfinderView extends View {
       // Draw the opaque result bitmap over the scanning rectangle
       paint.setAlpha(CURRENT_POINT_OPACITY);
       canvas.drawBitmap(resultBitmap, null, frame, paint);
-    } else {
-
-      // Draw a red "laser scanner" line through the middle to show decoding is active
-      paint.setColor(laserColor);
-      paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
-      scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
-      int middle = frame.height() / 2 + frame.top;
-      canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
-      
-      float scaleX = frame.width() / (float) previewFrame.width();
-      float scaleY = frame.height() / (float) previewFrame.height();
-
-      List<ResultPoint> currentPossible = possibleResultPoints;
-      List<ResultPoint> currentLast = lastPossibleResultPoints;
-      int frameLeft = frame.left;
-      int frameTop = frame.top;
-      if (currentPossible.isEmpty()) {
-        lastPossibleResultPoints = null;
-      } else {
-        possibleResultPoints = new ArrayList<>(5);
-        lastPossibleResultPoints = currentPossible;
-        paint.setAlpha(CURRENT_POINT_OPACITY);
-        paint.setColor(resultPointColor);
-        synchronized (currentPossible) {
-          for (ResultPoint point : currentPossible) {
-            canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX),
-                              frameTop + (int) (point.getY() * scaleY),
-                              POINT_SIZE, paint);
-          }
-        }
-      }
-      if (currentLast != null) {
-        paint.setAlpha(CURRENT_POINT_OPACITY / 2);
-        paint.setColor(resultPointColor);
-        synchronized (currentLast) {
-          float radius = POINT_SIZE / 2.0f;
-          for (ResultPoint point : currentLast) {
-            canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX),
-                              frameTop + (int) (point.getY() * scaleY),
-                              radius, paint);
-          }
-        }
-      }
-
-      // Request another update at the animation interval, but only repaint the laser line,
-      // not the entire viewfinder mask.
-      postInvalidateDelayed(ANIMATION_DELAY,
-                            frame.left - POINT_SIZE,
-                            frame.top - POINT_SIZE,
-                            frame.right + POINT_SIZE,
-                            frame.bottom + POINT_SIZE);
     }
   }
 

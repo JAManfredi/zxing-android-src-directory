@@ -19,13 +19,16 @@ package com.google.zxing.client.android.camera;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
+
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.client.android.camera.open.OpenCamera;
 import com.google.zxing.client.android.camera.open.OpenCameraInterface;
+import com.showclix.axess.app.R;
 
 import java.io.IOException;
 
@@ -167,7 +170,7 @@ public final class CameraManager {
   }
 
   /**
-   * Convenience method for {@link com.google.zxing.client.android.CaptureActivity}
+   * Convenience method for {@link com.showclix.axess.app.activities.CaptureActivity}
    *
    * @param newSetting if {@code true}, light should be turned on if currently off. And vice versa.
    */
@@ -223,11 +226,13 @@ public final class CameraManager {
         return null;
       }
 
-      int width = findDesiredDimensionInRange(screenResolution.x, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
-      int height = findDesiredDimensionInRange(screenResolution.y, MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
+      // Frame With Target Image On Scanner Layout
+      Drawable d = context.getResources().getDrawable(R.drawable.target);
+      int width = d.getIntrinsicWidth() + 100;
+      int height = d.getIntrinsicHeight() + 100;
 
       int leftOffset = (screenResolution.x - width) / 2;
-      int topOffset = (screenResolution.y - height) / 2;
+      int topOffset = ((screenResolution.y - height) / 2) - 132;
       framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
       Log.d(TAG, "Calculated framing rect: " + framingRect);
     }
